@@ -88,8 +88,8 @@ spec:
       restartPolicy: Always
       volumes:
       - name: config
-        persistentVolumeClaim: # type of volumen for PVC
-                claimName: pihole-config-claim  # claim created on top of yaml
+        persistentVolumeClaim: # type of volume for PVC
+                claimName: pihole-config-claim  # claim name created on top of yaml
       - configMap:
           defaultMode: 420
           name: pihole-custom-dnsmasq
