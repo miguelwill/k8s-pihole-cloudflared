@@ -7,6 +7,18 @@ kind: ConfigMap
 metadata:
   name: pihole-custom-dnsmasq
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pihole-config-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: gluster-vsan-anywhere
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -39,7 +51,7 @@ spec:
           value: 127.0.0.1:3000
       - env:
         - name: ServerIP
-          value: 192.168.100.75 # MODIFY THIS TO YOUR PIHOLE-UDP SVC IP
+          value: 10.10.1.58 # MODIFY THIS TO YOUR PIHOLE-UDP SVC IP
         - name: DNS1
           value: 127.0.0.1#5054
         - name: DNS2
@@ -76,9 +88,8 @@ spec:
       restartPolicy: Always
       volumes:
       - name: config
-        hostPath:
-          path: /path/to/persistent/volume/pihole # Modify this to a local path, or PVC
-          type: Directory
+        persistentVolumeClaim: # type of volumen for PVC
+                claimName: pihole-config-claim  # claim created on top of yaml
       - configMap:
           defaultMode: 420
           name: pihole-custom-dnsmasq
