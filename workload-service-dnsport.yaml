@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/creatorId: user-kflk9
+    field.cattle.io/ipAddresses: "null"
+    field.cattle.io/publicEndpoints: '[{"addresses":["10.10.1.58"],"port":32053,"protocol":"UDP","serviceName":"cloudflared:dns-cloudflared","allNodes":true}]'
+    field.cattle.io/targetDnsRecordIds: "null"
+    field.cattle.io/targetWorkloadIds: '["deployment:cloudflared:pihole"]'
+  creationTimestamp: "2019-07-24T22:35:44Z"
+  labels:
+    cattle.io/creator: norman
+  name: dns-cloudflared
+  namespace: cloudflared
+  resourceVersion: "5974255"
+  selfLink: /api/v1/namespaces/cloudflared/services/dns-cloudflared
+  uid: 5faddd52-ae63-11e9-a427-0050568dd8b3
+spec:
+  clusterIP: 10.43.27.187
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: dns-cloud
+    nodePort: 32053
+    port: 53
+    protocol: UDP
+    targetPort: 53
+  publishNotReadyAddresses: true
+  selector:
+    workloadID_dns-cloudflared: "true"
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
+  
+  #created over namespace "cloudflared"
